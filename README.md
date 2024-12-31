@@ -132,6 +132,16 @@ requires you to have Docker with GPU access set up.
 Check your setup:
 
 ```sh
+# Add the GPG key for the NVIDIA container toolkit
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+
+# Add the repository for the NVIDIA container toolkit
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt update
+sudo apt install -y nvidia-docker2
+sudo systemctl restart docker
+
 docker run -it --rm --gpus all tensorflow/tensorflow:2.4.2-gpu nvidia-smi
 ```
 
